@@ -1,0 +1,4 @@
+{
+  "secretKey": "your sectect key",
+  "initVector": "0123456789ABCDEF"
+}
