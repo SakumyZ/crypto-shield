@@ -1,9 +1,9 @@
 import crypto from 'node:crypto'
 import kleur from 'kleur'
-import config from '../config.json'
+import config from '../config.json' assert { type: 'json' }
 
 const algorithm = 'aes-256-cbc'
-const initVector = Buffer.from(config.initVector, 'utf-8')
+const initVector: Buffer = Buffer.from(config.initVector, 'utf-8')
 
 let key = config.secretKey
 
@@ -14,11 +14,11 @@ if (key.length <= 32) {
   process.exit(1)
 }
 
-const secretKey = Buffer.from(key, 'utf-8')
+const secretKey: Buffer = Buffer.from(key, 'utf-8')
 
 const REG_LETTER: RegExp = /[a-zA-Z]/
 
-const enObfuscation = (encryptedData: string) => {
+const enObfuscation = (encryptedData: string): string => {
   let res = ''
 
   for (let index = 0; index < encryptedData.length; index++) {
@@ -39,7 +39,7 @@ const enObfuscation = (encryptedData: string) => {
   return res
 }
 
-const deObfuscation = (encrypted: string) => {
+const deObfuscation = (encrypted: string): string => {
   // 将生成代码中部分字母转为小写
   // 将 ! 转换为f
   let res = ''
@@ -65,7 +65,7 @@ const deObfuscation = (encrypted: string) => {
   return res
 }
 
-export const encrypt = (text: string) => {
+export const encrypt = (text: string): string => {
   const cipher = crypto.createCipheriv(algorithm, secretKey, initVector)
 
   let encryptedData = cipher.update(text, 'utf-8', 'hex')
@@ -74,7 +74,7 @@ export const encrypt = (text: string) => {
   return enObfuscation(encryptedData)
 }
 
-export const decrypted = (encrypted: string) => {
+export const decrypted = (encrypted: string): string => {
   const res = deObfuscation(encrypted)
 
   const decipher = crypto.createDecipheriv(algorithm, secretKey, initVector)
@@ -86,7 +86,7 @@ export const decrypted = (encrypted: string) => {
   return decryptedData
 }
 
-const run = () => {
+const run = (): void => {
   const params: string[] = process.argv.slice(2)
 
   if (params.length === 0) {

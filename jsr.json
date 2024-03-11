@@ -1,0 +1,5 @@
+{
+  "name": "@sakumyz/crypto-shield",
+  "version": "1.0.1",
+  "exports": "./src/index.ts"
+}
